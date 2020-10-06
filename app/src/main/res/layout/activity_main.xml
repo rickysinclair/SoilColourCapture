@@ -11,13 +11,12 @@
         android:layout_width="94dp"
         android:layout_height="147dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="384dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/cap_btn"
         android:onClick="captureImage"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintEnd_toStartOf="@+id/btnDisplay"
+        app:layout_constraintHorizontal_bias="0.339"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="OnClick" />
 
@@ -32,8 +31,30 @@
         android:onClick="displayImage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="OnClick" />
+
+    <ImageButton
+        android:id="@+id/recDisplay"
+        android:layout_width="94dp"
+        android:layout_height="147dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/rec_btn"
+        android:onClick="displayRecords"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.967"
+        app:layout_constraintStart_toEndOf="@+id/btnDisplay"
+        tools:ignore="OnClick" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/scc_logo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-1dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,32 +1,60 @@
 package rickysinclair.com.au;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class DisplayImage extends AppCompatActivity {
 
     ImageView imageView;
     ArrayList<String> table = new ArrayList<String>();
+    private static ArrayList<String> rgbList = new ArrayList<String>();
+    private static ArrayList<String> hvcList = new ArrayList<String>();
+    private static ArrayList<String> dateList = new ArrayList<String>();
+
+    DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("ddMMyyyy_hh:mm:ss");
+    //Local date time instance
+    ZoneId z = ZoneId.systemDefault(); //get the JVM’s current default time zone: ZoneId.systemDefault()
+    ZonedDateTime localDateTime = ZonedDateTime.now(z);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_image);
         imageView = findViewById(R.id.mimageView);
-
         Bitmap bitmap = BitmapFactory.decodeFile(getIntent().getStringExtra("image_path"));
         imageView.setImageBitmap(bitmap);
+    }
+
+    public void convertValues(View view) {
+        TextView tvHVC = findViewById(R.id.calculatedHVC);
+        TextView tvRGB = findViewById(R.id.calculatedRGB);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(getIntent().getStringExtra("image_path"));
+
+
+        //Get formatted String
+        String dateTimeString = myFormat.format(localDateTime);
 
         try {
             table = readCSV(); // Create an ArrayList object
@@ -34,17 +62,38 @@ public class DisplayImage extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         try {
-            int index = getMinValue(findClosestRGB(rgbSample(bitmap),table));
-            Log.d("Distance", String.valueOf(index));
-            String munsellVal = displayMunsell(index,table);
-            Log.d("munsell value", munsellVal);
+            int index = getMinValue(findClosestRGB(rgbSample(bitmap), table));
+//            Log.d("Distance", String.valueOf(index));
+            String convertedVal = displayMunsell(index, table);
+//            Log.d("munsell value", convertedVal);
+            String[] parts = convertedVal.split(",");
+            tvHVC.setText(parts[0]);
+            tvRGB.setText(parts[1]);
+
+            rgbList.add(parts[0]);
+            hvcList.add(parts[1]);
+            dateList.add(dateTimeString);
+
+            for (String rgb : rgbList) {
+                Log.d("RGB", rgb);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static ArrayList<String> getRgbList() {
+        return rgbList;
+    }
 
+    public static ArrayList<String> getHvcList() {
+        return hvcList;
+    }
+
+    public static ArrayList<String> getDateList() {
+        return dateList;
     }
 
     public String rgbSample(Bitmap bitmap) {
@@ -55,9 +104,15 @@ public class DisplayImage extends AppCompatActivity {
         int x;
         int y;
 
-        int pixels = 2;
-
         int pixelCount = 0;
+        int pixels = 1;
+
+        EditText editText = findViewById(R.id.sampleSize);
+        String temp = editText.getText().toString();
+        if (!"".equals(temp)) {
+            pixels = Integer.parseInt(temp);
+        }
+//        Log.d("staunch", String.valueOf(pixels));
 
         int imgWidth = bitmap.getWidth() / 2;
         int imgHeight = bitmap.getHeight() / 2;
@@ -85,7 +140,7 @@ public class DisplayImage extends AppCompatActivity {
         avgG = avgG / (pixelCount);
         avgB = avgB / (pixelCount);
         String colourVal = avgR + "," + avgG + "," + avgB;
-        Log.d("RGB Value: ", colourVal);
+//        Log.d("RGB Value: ", colourVal);
         return colourVal;
     }
 
@@ -100,16 +155,16 @@ public class DisplayImage extends AppCompatActivity {
 
         ArrayList<Double> numbers = new ArrayList<Double>(); // Create an ArrayList object
 
-        for(String line : table) {
+        for (String line : table) {
             String[] parts = line.split(",");
-            //Log.d("Line", parts[3]);
-            String[] rgb = parts[3].split("-");
+//            Log.d("Line", parts[1]);
+            String[] rgb = parts[1].split("_");
 
             double dist;
             dist = (Math.pow(((Integer.parseInt(rgb[0]) - r1)), 2)
                     + Math.pow(((Integer.parseInt(rgb[1]) - g1)), 2)
                     + Math.pow(((Integer.parseInt(rgb[2]) - b1)), 2)); //euclidean distance
-            //Log.d("Distance", String.valueOf(dist));
+//            Log.d("Distance", String.valueOf(dist));
             numbers.add(dist);
         }
         return numbers;
@@ -125,6 +180,7 @@ public class DisplayImage extends AppCompatActivity {
         String line;
         while ((line = reader.readLine()) != null) {
             table.add(line);
+//            Log.d("Zenith", line);
         }
         return table;
     }
@@ -138,13 +194,13 @@ public class DisplayImage extends AppCompatActivity {
                 minValue = number;
                 place = index;
                 index++;
-            }
-            else index++;
+            } else index++;
         }
         return place;
     }
 
-    public String displayMunsell(int index,ArrayList<String> table){
+    public String displayMunsell(int index, ArrayList<String> table) {
         return table.get(index);
     }
+
 }

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.Toast;
@@ -28,12 +29,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void showToast(View view) {
-        String message = "Hello!";
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
     public void captureImage(View view) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -51,12 +46,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    public void displayRecords(View view){
+        Intent intent = new Intent(this, Records.class);
+        startActivity(intent);
+    }
 
     public void displayImage(View view) {
         Intent intent = new Intent(this, DisplayImage.class);
         intent.putExtra("image_path", currentImagePath);
         startActivity(intent);
-
     }
 
     private File getImageFile() throws IOException {

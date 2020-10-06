@@ -1,16 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DisplayImage">
-    
+
+
     <ImageView
+        android:id="@+id/mimageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="4dp"
-        android:id="@+id/mimageView"/>
+        android:layout_height="400dp"
+        android:background="#FFFFFF"
+        android:padding="4dp" />
+
+    <TextView
+        android:id="@+id/bannerCalculate"
+        android:layout_width="229dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="139dp"
+        android:layout_marginLeft="139dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="139dp"
+        android:layout_marginRight="139dp"
+        android:layout_marginBottom="559dp"
+        android:background="#4DFFFFFF"
+        android:text="Calculate Munsell Values"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/bannerPixel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mimageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="71dp"
+        android:background="@android:color/white"
+        android:text="Pixel Sample Size:"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/bannerRGB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mimageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="416dp"
+        android:text="RGB Value:"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/bannerHVC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mimageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="71dp"
+        android:layout_marginBottom="416dp"
+        android:text="HVC Value:"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/calculatedRGB"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mimageView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="416dp"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/calculatedHVC"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mimageView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="416dp"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/sampleSize"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mimageView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="80dp"
+        android:background="@android:color/white"
+        android:ems="10"
+        android:hint="@string/enter_1_50"
+        android:inputType="numberSigned" />
+
+    <Button
+        android:id="@+id/calculateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/mimageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:onClick="convertValues"
+        android:text="Calculate/record values" />
+
 
 </RelativeLayout>
