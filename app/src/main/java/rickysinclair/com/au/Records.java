@@ -3,12 +3,15 @@ package rickysinclair.com.au;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-
+/**
+ * The Records class displays the values from the array list onto the devices screen
+ */
 public class Records extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -16,19 +19,24 @@ public class Records extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
-        DisplayImage obj = new DisplayImage();
-        Log.d("BIG DOG WORKING HARD", "Here we go!");
+        DisplayImage obj = new DisplayImage(); //create object of DisplayImage class
 
+        LinearLayout LinearLayoutView = new LinearLayout(this);
+        TextView DisplayStringArray = new TextView(this);
 
-        for (String rgb : obj.getRgbList()) {
-            Log.d("RGB", rgb);
+        DisplayStringArray.setTextSize(18); //set text size for display
+        DisplayStringArray.append("Date_Time                    " + "Munsell       " + " RGB"); //create headers
+        DisplayStringArray.append("\n\n");
+        LinearLayoutView.addView(DisplayStringArray);
+        DisplayStringArray.setTypeface(null, Typeface.NORMAL); //set text style
+
+        //loop through array list and write values to text view
+        for (int i = 0; i < obj.getRgbList().size(); i++) {
+            DisplayStringArray.append(obj.getDateList().get(i) + "    " + obj.getRgbList().get(i) + "    " + obj.getHvcList().get(i));
+            DisplayStringArray.append("\n");
         }
-        for (String hvc : obj.getHvcList()) {
-            Log.d("RGB", hvc);
-        }
-        for (String date : obj.getDateList()) {
-            Log.d("RGB", date);
-        }
+        setContentView(LinearLayoutView);
+
     }
 }
 

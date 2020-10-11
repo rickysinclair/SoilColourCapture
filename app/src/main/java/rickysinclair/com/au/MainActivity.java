@@ -8,16 +8,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * The MainActivity class contains the methods to capture images from the device camera and save these images
+ * on the local device storage.
+ */
 public class MainActivity extends AppCompatActivity {
 
     String currentImagePath = null;
@@ -29,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * The captureImage method uses the devices camera to capture an image
+     *
+     * @param view
+     */
     public void captureImage(View view) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -46,17 +52,31 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void displayRecords(View view){
+
+    /**
+     * The displayRecords method uses an intent to launch the display_image activity.
+     */
+    public void displayRecords(View view) {
         Intent intent = new Intent(this, Records.class);
         startActivity(intent);
     }
 
+    /**
+     * The displayImage method uses an intent to launch the display_image activity.
+     */
     public void displayImage(View view) {
         Intent intent = new Intent(this, DisplayImage.class);
         intent.putExtra("image_path", currentImagePath);
         startActivity(intent);
     }
 
+    /**
+     * The getImageFile method returns the image taken from the camera and creates the
+     * file name and extension for the saved image
+     *
+     * @return
+     * @throws IOException
+     */
     private File getImageFile() throws IOException {
         Date date = new Date();
         SimpleDateFormat DateFor = new SimpleDateFormat("ddMMyyyy");
